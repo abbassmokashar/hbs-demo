@@ -91,10 +91,14 @@
 
   const tabs = [...document.querySelectorAll('[data-program-tab]')];
   const panels = [...document.querySelectorAll('[data-program-panel]')];
-  const activateTab = (tab) => {
-    const key = tab.dataset.programTab;
+  const panelsWrap = document.querySelector('.program-panels');
+  const PANEL_FADE_MS = 200;
+  let panelSwapTimer = null;
+
+  // Swap panels with no transition.
+  const showPanel = (key) => {
     tabs.forEach((item) => {
-      const active = item === tab;
+      const active = item.dataset.programTab === key;
       item.setAttribute('aria-selected', String(active));
       item.tabIndex = active ? 0 : -1;
     });
@@ -103,6 +107,24 @@
       panel.hidden = !active;
       panel.classList.toggle('is-active', active);
     });
+  };
+
+  // Dissolve the panel area while swapping so the change reads as a cross-fade.
+  const activateTab = (tab) => {
+    const key = tab.dataset.programTab;
+    if (reduceMotion || !panelsWrap) {
+      showPanel(key);
+      return;
+    }
+    panelsWrap.classList.add('is-switching');
+    window.clearTimeout(panelSwapTimer);
+    panelSwapTimer = window.setTimeout(() => {
+      showPanel(key);
+      // A short timed pause lets the swapped panel paint before fading back in.
+      // A timer rather than requestAnimationFrame, which can stall and would
+      // leave the panel area stuck at zero opacity.
+      panelSwapTimer = window.setTimeout(() => panelsWrap.classList.remove('is-switching'), 40);
+    }, PANEL_FADE_MS);
   };
 
   tabs.forEach((tab, index) => {
@@ -126,6 +148,18 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
 
-  document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+  document.querySelectorAll('.reveal, [data-reveal-group]').forEach((element) => observer.observe(element));
   document.querySelector('[data-year]').textContent = new Date().getFullYear();
+
+  // Measure the dual-degree flight path so its dash animations loop seamlessly
+  // instead of guessing a length that may not match the curve.
+  const routeBase = document.querySelector('.dual-degree__route-base');
+  const dualVisual = document.querySelector('.dual-degree__visual');
+  if (routeBase && dualVisual) {
+    const length = routeBase.getTotalLength();
+    const dash = length * 0.16;
+    dualVisual.style.setProperty('--route-len', length);
+    dualVisual.style.setProperty('--route-dash', dash);
+    dualVisual.style.setProperty('--route-gap', length - dash);
+  }
 })();

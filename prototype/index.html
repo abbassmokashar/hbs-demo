@@ -14,6 +14,16 @@
   <link rel="preload" as="image" href="assets/images/classroom.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/main.js"></script>
+  <noscript>
+    <style>
+      body.is-loading { overflow: auto; }
+      .preloader { display: none; }
+      .reveal { opacity: 1; transform: none; }
+      .program-panels .program-card { opacity: 1; translate: none; }
+      .dual-degree__route-base { stroke-dashoffset: 0; }
+      .dual-degree__node { opacity: 1; }
+    </style>
+  </noscript>
 </head>
 <body class="is-loading">
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -146,7 +156,7 @@
           <button id="tab-dual" role="tab" aria-selected="false" aria-controls="panel-dual" tabindex="-1" data-program-tab="dual">Dual Degrees</button>
           <button id="tab-executive" role="tab" aria-selected="false" aria-controls="panel-executive" tabindex="-1" data-program-tab="executive">Executive</button>
         </div>
-        <div class="program-panels">
+        <div class="program-panels" data-reveal-group>
           <div id="panel-bachelor" class="program-panel is-active" role="tabpanel" aria-labelledby="tab-bachelor" data-program-panel="bachelor">
             <article class="program-card program-card--feature">
               <div class="program-card__index">01 / Bachelor</div>
@@ -254,7 +264,12 @@
 
     <section class="dual-degree section" id="dual-degree" aria-labelledby="dual-title">
       <div class="dual-degree__visual reveal">
-        <div class="dual-degree__line" aria-hidden="true"></div>
+        <svg class="dual-degree__route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="dual-degree__route-base" d="M 37 72 C 34 46 46 24 63 28" vector-effect="non-scaling-stroke"/>
+          <path class="dual-degree__route-pulse" d="M 37 72 C 34 46 46 24 63 28" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="dual-degree__node dual-degree__node--ch" aria-hidden="true"></span>
+        <span class="dual-degree__node dual-degree__node--de" aria-hidden="true"></span>
         <div class="dual-degree__country dual-degree__country--ch"><span>CH</span><strong>Switzerland</strong></div>
         <div class="dual-degree__country dual-degree__country--de"><span>DE</span><strong>Germany</strong></div>
       </div>
@@ -273,7 +288,7 @@
           <h2 id="intakes-title">Intakes & deadlines.</h2>
           <p>The current academic calendar is being updated. Confirm dates with Admissions before planning travel or visa arrangements.</p>
         </div>
-        <div class="intake-grid">
+        <div class="intake-grid stagger">
           <article class="intake-card reveal">
             <span>01</span>
             <h3>Fall Term</h3>
@@ -353,7 +368,23 @@
           <h2 id="faculty-title">Experience brought into the classroom.</h2>
           <p>HBS faculty connect academic study with international business and professional practice.</p>
         </div>
-        <div class="faculty-grid">
+        <div class="faculty-ticker" aria-hidden="true">
+          <div class="faculty-ticker__track">
+            <span>Skill-based education</span><i>✳</i>
+            <span>Small class sizes</span><i>✳</i>
+            <span>Personalized support</span><i>✳</i>
+            <span>Switzerland × Germany</span><i>✳</i>
+            <span>Skill-based education</span><i>✳</i>
+            <span>Small class sizes</span><i>✳</i>
+            <span>Personalized support</span><i>✳</i>
+            <span>Switzerland × Germany</span><i>✳</i>
+            <span>Skill-based education</span><i>✳</i>
+            <span>Small class sizes</span><i>✳</i>
+            <span>Personalized support</span><i>✳</i>
+            <span>Switzerland × Germany</span><i>✳</i>
+          </div>
+        </div>
+        <div class="faculty-grid stagger">
           <article class="faculty-card reveal"><span>Dean of Academics</span><h3>Dr. Giuseppe Catenazzo</h3><p>Management, research, marketing, and higher education.</p><a href="#contact">View profile <b>↗</b></a></article>
           <article class="faculty-card reveal"><span>Faculty</span><h3>Dr. Ruby Bakshi Khurdi</h3><p>Emotional intelligence, education, and learner engagement.</p><a href="#contact">View profile <b>↗</b></a></article>
           <article class="faculty-card reveal"><span>Faculty</span><h3>Dr. Mario Saba</h3><p>Management science, information systems, and innovation.</p><a href="#contact">View profile <b>↗</b></a></article>
@@ -370,7 +401,7 @@
           <h2 id="admissions-title">Your next chapter, <em>clearly mapped.</em></h2>
           <p>The HBS admissions team provides guidance through application, review, enrollment, and visa preparation where required.</p>
         </div>
-        <ol class="admission-steps">
+        <ol class="admission-steps stagger" data-reveal-group>
           <li class="reveal"><span>01</span><h3>Apply</h3><p>Submit the application form, required documents, and application fee.</p></li>
           <li class="reveal"><span>02</span><h3>Interview</h3><p>The admissions team reviews the application and schedules an interview where applicable.</p></li>
           <li class="reveal"><span>03</span><h3>Offer</h3><p>Accepted applicants receive an offer letter and student agreement.</p></li>
