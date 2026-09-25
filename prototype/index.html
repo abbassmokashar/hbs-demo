@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Homepage design concept for Helvetic Business School in La Tour-de-Peilz, Switzerland.">
+  <title>Helvetic Business School - Homepage Concept</title>
+  <link rel="icon" href="assets/hbs.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600&amp;family=Roboto:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script defer src="assets/main.js"></script>
+</head>
+<body class="is-loading">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader__logo">
+      <img src="assets/hbs.svg" alt="">
+    </div>
+    <div class="preloader__line"><span></span></div>
+  </div>
+
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+  <header class="site-header" data-header>
+    <a class="brand-lockup" href="#top" aria-label="Helvetic Business School and Helvetic Institute of Technology home">
+      <img class="brand-lockup__hbs" src="assets/hbs.svg" alt="Helvetic Business School">
+      <span aria-hidden="true">×</span>
+      <img class="brand-lockup__hit" src="assets/hit.svg" alt="Helvetic Institute of Technology">
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#programs">Programs</a>
+      <a href="#admissions">Admissions</a>
+      <a href="#about">About HBS</a>
+      <a href="#campus">Student Experience</a>
+      <a href="#insights">Insights & Events</a>
+    </nav>
+    <div class="header-actions">
+      <a class="text-link" href="#contact">Contact</a>
+      <a class="button button--small button--dark" href="#contact">Apply now</a>
+    </div>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span class="sr-only">Open menu</span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Mobile navigation">
+      <a href="#programs"><span>01</span>Programs</a>
+      <a href="#admissions"><span>02</span>Admissions</a>
+      <a href="#about"><span>03</span>About HBS</a>
+      <a href="#campus"><span>04</span>Student Experience</a>
+      <a href="#insights"><span>05</span>Insights & Events</a>
+      <a href="#contact"><span>06</span>Contact</a>
+    </nav>
+    <div class="mobile-menu__footer">
+      <a class="button button--cream" href="#contact">Apply now</a>
+      <p>La Tour-de-Peilz, Switzerland</p>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero__wash" aria-hidden="true"></div>
+      <div class="hero__content shell">
+        <p class="eyebrow reveal">Helvetic Business School <span>Switzerland</span></p>
+        <h1 id="hero-title" class="reveal reveal--delay-1">Empowering tomorrow’s <em>leaders</em> for the global business landscape.</h1>
+        <p class="hero__intro reveal reveal--delay-2">Innovative education, practical skills development, and ethical leadership in a personal learning environment.</p>
+        <div class="hero__actions reveal reveal--delay-3">
+          <a class="button button--cream" href="#programs">Explore programs <span aria-hidden="true">↗</span></a>
+          <a class="button button--ghost" href="#contact">Request information</a>
+        </div>
+      </div>
+      <div class="hero__image" aria-hidden="true">
+        <img src="assets/images/classroom.jpg" alt="">
+      </div>
+      <div class="hero__meta" aria-hidden="true">
+        <span>46.6569° N</span>
+        <span>La Tour-de-Peilz</span>
+      </div>
+      <a class="hero__scroll" href="#principles"><span></span>Scroll to discover</a>
+      <svg class="hero__ridge" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 150L180 78L315 122L520 30L705 102L915 14L1080 96L1270 42L1440 94V180H0Z" fill="currentColor"/>
+      </svg>
+    </section>
+
+    <section class="principles section section--paper" id="principles" aria-labelledby="principles-title">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow eyebrow--green">The HBS approach</p>
+          <h2 id="principles-title">Built around how people <em>learn and lead.</em></h2>
+          <p>HBS combines practical learning methods with the personal attention of a focused academic community.</p>
+        </div>
+        <div class="principle-list" data-accordion>
+          <article class="principle is-active reveal" data-principle>
+            <button type="button" aria-expanded="true">
+              <span class="principle__number">01</span>
+              <span class="principle__title">Skill-based education</span>
+              <span class="principle__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="principle__body">
+              <p>Tested working and problem-solving methods designed to remain valuable throughout a professional career.</p>
+            </div>
+          </article>
+          <article class="principle reveal" data-principle>
+            <button type="button" aria-expanded="false">
+              <span class="principle__number">02</span>
+              <span class="principle__title">Small class sizes</span>
+              <span class="principle__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="principle__body">
+              <p>Personalized attention that encourages collaboration, active participation, and meaningful interaction with professors.</p>
+            </div>
+          </article>
+          <article class="principle reveal" data-principle>
+            <button type="button" aria-expanded="false">
+              <span class="principle__number">03</span>
+              <span class="principle__title">Personalized support</span>
+              <span class="principle__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="principle__body">
+              <p>Guidance and resources throughout the learning journey, supporting educational and career goals.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="programs section section--green" id="programs" aria-labelledby="programs-title">
+      <div class="shell">
+        <div class="section-heading section-heading--light reveal">
+          <p class="eyebrow">Find your path</p>
+          <h2 id="programs-title">Programs for the next stage of your <em>ambition.</em></h2>
+        </div>
+        <div class="program-tabs reveal" role="tablist" aria-label="Program levels">
+          <button id="tab-bachelor" role="tab" aria-selected="true" aria-controls="panel-bachelor" tabindex="0" data-program-tab="bachelor">Bachelor</button>
+          <button id="tab-master" role="tab" aria-selected="false" aria-controls="panel-master" tabindex="-1" data-program-tab="master">Master</button>
+          <button id="tab-dual" role="tab" aria-selected="false" aria-controls="panel-dual" tabindex="-1" data-program-tab="dual">Dual Degrees</button>
+          <button id="tab-executive" role="tab" aria-selected="false" aria-controls="panel-executive" tabindex="-1" data-program-tab="executive">Executive</button>
+        </div>
+        <div class="program-panels">
+          <div id="panel-bachelor" class="program-panel is-active" role="tabpanel" aria-labelledby="tab-bachelor" data-program-panel="bachelor">
+            <article class="program-card program-card--feature">
+              <div class="program-card__index">01 / Bachelor</div>
+              <div>
+                <h3>Bachelor of Business Administration</h3>
+                <p>A broad business education structured around practical skills, communication, leadership, and international perspective.</p>
+              </div>
+              <div class="program-card__meta"><span>Full-time</span><span>English</span><span>Switzerland</span></div>
+              <a href="#contact" aria-label="Discover the Bachelor of Business Administration">Discover program <span>↗</span></a>
+            </article>
+            <article class="program-card">
+              <div class="program-card__index">02 / Dual bachelor</div>
+              <div>
+                <h3>BBA + B.Sc. International Management</h3>
+                <p>Study in Switzerland and Germany and graduate with degrees from HBS and ISM.</p>
+              </div>
+              <div class="program-card__meta"><span>Full-time</span><span>English</span></div>
+              <a href="#dual-degree" aria-label="Discover the BBA dual degree">Discover program <span>↗</span></a>
+            </article>
+          </div>
+          <div id="panel-master" class="program-panel" role="tabpanel" aria-labelledby="tab-master" data-program-panel="master" hidden>
+            <article class="program-card program-card--feature">
+              <div class="program-card__index">01 / Master</div>
+              <div>
+                <h3>Master of Business Administration</h3>
+                <p>Advanced business study connecting strategy, leadership, innovation, and practical application.</p>
+              </div>
+              <div class="program-card__meta"><span>Full-time</span><span>English</span><span>Switzerland</span></div>
+              <a href="#contact" aria-label="Discover the Master of Business Administration">Discover program <span>↗</span></a>
+            </article>
+            <article class="program-card">
+              <div class="program-card__index">02 / Dual master</div>
+              <div>
+                <h3>MBA + ISM Master’s Degree</h3>
+                <p>Combine the HBS MBA with a choice of specialized master’s pathways at ISM in Germany.</p>
+              </div>
+              <div class="program-card__meta"><span>Full-time</span><span>English</span></div>
+              <a href="#dual-degree" aria-label="Discover the MBA dual degrees">Discover pathways <span>↗</span></a>
+            </article>
+          </div>
+          <div id="panel-dual" class="program-panel" role="tabpanel" aria-labelledby="tab-dual" data-program-panel="dual" hidden>
+            <article class="program-card program-card--feature">
+              <div class="program-card__index">HBS × ISM</div>
+              <div>
+                <h3>Two countries. Two degrees.</h3>
+                <p>International dual-degree pathways across Switzerland and Germany at bachelor’s and master’s levels.</p>
+              </div>
+              <div class="program-card__meta"><span>Switzerland</span><span>Germany</span><span>English</span></div>
+              <a href="#dual-degree" aria-label="Explore HBS and ISM dual degrees">Explore dual degrees <span>↗</span></a>
+            </article>
+          </div>
+          <div id="panel-executive" class="program-panel" role="tabpanel" aria-labelledby="tab-executive" data-program-panel="executive" hidden>
+            <article class="program-card program-card--feature">
+              <div class="program-card__index">01 / Executive</div>
+              <div>
+                <h3>Executive Certificates</h3>
+                <p>Focused certificate programs for professional development.</p>
+              </div>
+              <div class="program-card__meta"><span>Certificate</span><span>Professional</span></div>
+              <a href="#contact" aria-label="Discover Executive Certificates">Discover certificates <span>↗</span></a>
+            </article>
+            <article class="program-card">
+              <div class="program-card__index">02 / Executive</div>
+              <div>
+                <h3>Executive Training</h3>
+                <p>Coming soon.</p>
+              </div>
+              <div class="program-card__meta"><span>Coming soon</span></div>
+              <a href="#contact" aria-label="Contact HBS about Executive Training">Contact HBS <span>↗</span></a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="technology section section--paper" id="technology" aria-labelledby="technology-title">
+      <div class="shell technology__grid">
+        <div class="technology__identity reveal">
+          <div class="brand-lockup brand-lockup--large" aria-label="HBS and HIT">
+            <img class="brand-lockup__hbs" src="assets/hbs.svg" alt="Helvetic Business School">
+            <span aria-hidden="true">×</span>
+            <img class="brand-lockup__hit" src="assets/hit.svg" alt="Helvetic Institute of Technology">
+          </div>
+          <p class="eyebrow eyebrow--green">Institute of Technology</p>
+          <h2 id="technology-title">Technology programs.</h2>
+          <p>Explore the technology bachelor’s and master’s programs linked from the current HBS website.</p>
+        </div>
+        <div class="technology__programs reveal">
+          <div>
+            <span>Bachelor’s</span>
+            <a href="https://helvetictech.ch" target="_blank" rel="noopener">Artificial Intelligence <b>↗</b></a>
+            <a href="https://helvetictech.ch" target="_blank" rel="noopener">Cybersecurity <b>↗</b></a>
+            <a href="https://helvetictech.ch" target="_blank" rel="noopener">Blockchain <b>↗</b></a>
+          </div>
+          <div>
+            <span>Master’s</span>
+            <a href="https://helvetictech.ch" target="_blank" rel="noopener">Artificial Intelligence <b>↗</b></a>
+            <a href="https://helvetictech.ch" target="_blank" rel="noopener">Cyber Security <b>↗</b></a>
+            <a href="https://helvetictech.ch" target="_blank" rel="noopener">Blockchain <b>↗</b></a>
+          </div>
+          <p>External programs open on helvetictech.ch.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="dual-degree section" id="dual-degree" aria-labelledby="dual-title">
+      <div class="dual-degree__visual reveal">
+        <div class="dual-degree__line" aria-hidden="true"></div>
+        <div class="dual-degree__country dual-degree__country--ch"><span>CH</span><strong>Switzerland</strong></div>
+        <div class="dual-degree__country dual-degree__country--de"><span>DE</span><strong>Germany</strong></div>
+      </div>
+      <div class="dual-degree__content reveal">
+        <p class="eyebrow eyebrow--green">HBS × ISM dual degrees</p>
+        <h2 id="dual-title">One international journey. <em>Two degrees.</em></h2>
+        <p>Experience Swiss business education and Germany’s dynamic economy while gaining international exposure and hands-on experience.</p>
+        <a class="arrow-link" href="#contact">Discover dual degrees <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section class="intakes section section--cream" id="intakes" aria-labelledby="intakes-title">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow eyebrow--green">Plan your application</p>
+          <h2 id="intakes-title">Intakes & deadlines.</h2>
+          <p>The current academic calendar is being updated. Confirm dates with Admissions before planning travel or visa arrangements.</p>
+        </div>
+        <div class="intake-grid">
+          <article class="intake-card reveal">
+            <span>01</span>
+            <h3>Fall Term</h3>
+            <dl><div><dt>Term start</dt><dd>To be confirmed</dd></div><div><dt>Application deadlines</dt><dd>To be confirmed</dd></div></dl>
+          </article>
+          <article class="intake-card reveal">
+            <span>02</span>
+            <h3>Winter Term</h3>
+            <dl><div><dt>Term start</dt><dd>To be confirmed</dd></div><div><dt>Application deadlines</dt><dd>To be confirmed</dd></div></dl>
+          </article>
+          <article class="intake-card reveal">
+            <span>03</span>
+            <h3>Spring Term</h3>
+            <dl><div><dt>Term start</dt><dd>To be confirmed</dd></div><div><dt>Application deadlines</dt><dd>To be confirmed</dd></div></dl>
+          </article>
+        </div>
+        <div class="intakes__action reveal">
+          <a class="button button--dark" href="#contact">Contact Admissions</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="about section section--paper" id="about" aria-labelledby="about-title">
+      <div class="shell about__grid">
+        <div class="about__copy reveal">
+          <p class="eyebrow eyebrow--green">About HBS</p>
+          <h2 id="about-title">A focused community with a <em>global outlook.</em></h2>
+          <p>HBS fosters a dynamic and diverse community committed to excellence and impactful contributions to the world of business.</p>
+          <a class="arrow-link" href="#contact">Discover HBS <span aria-hidden="true">↗</span></a>
+        </div>
+        <figure class="about__image reveal">
+          <img src="assets/images/campus-lounge.jpg" alt="Students and faculty in an interior lounge at HBS">
+          <figcaption>Personal learning. Professional perspective.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="campus section section--paper" id="campus" aria-labelledby="campus-title">
+      <div class="shell campus__grid">
+        <div class="campus__sticky reveal">
+          <p class="eyebrow eyebrow--green">The HBS campus</p>
+          <h2 id="campus-title">Now in <em>La Tour-de-Peilz.</em></h2>
+          <p>Helvetic Business School is currently based on the AUS campus in La Tour-de-Peilz, Switzerland.</p>
+          <p class="campus__note">This concept intentionally uses interior campus photography only.</p>
+          <a class="arrow-link" href="#contact">Explore student experience <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="campus__gallery">
+          <figure class="reveal"><img src="assets/images/campus-reception.jpg" alt="Reception and lounge interior at HBS"></figure>
+          <figure class="reveal"><img src="assets/images/classroom-session.jpg" alt="A small classroom session at HBS"></figure>
+          <figure class="reveal"><img src="assets/images/classroom-presentation.jpg" alt="Students taking part in a classroom presentation at HBS"></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="faculty section section--green" id="faculty" aria-labelledby="faculty-title">
+      <div class="shell">
+        <div class="section-heading section-heading--light reveal">
+          <p class="eyebrow">Learn from professionals</p>
+          <h2 id="faculty-title">Experience brought into the classroom.</h2>
+          <p>HBS faculty connect academic study with international business and professional practice.</p>
+        </div>
+        <div class="faculty-grid">
+          <article class="faculty-card reveal"><span>Dean of Academics</span><h3>Dr. Giuseppe Catenazzo</h3><p>Management, research, marketing, and higher education.</p><a href="#contact">View profile <b>↗</b></a></article>
+          <article class="faculty-card reveal"><span>Faculty</span><h3>Dr. Ruby Bakshi Khurdi</h3><p>Emotional intelligence, education, and learner engagement.</p><a href="#contact">View profile <b>↗</b></a></article>
+          <article class="faculty-card reveal"><span>Faculty</span><h3>Dr. Mario Saba</h3><p>Management science, information systems, and innovation.</p><a href="#contact">View profile <b>↗</b></a></article>
+          <article class="faculty-card reveal"><span>Faculty</span><h3>Jessie Yan</h3><p>Strategic partnerships, leadership, and sustainable development.</p><a href="#contact">View profile <b>↗</b></a></article>
+        </div>
+        <div class="faculty__action reveal"><a class="button button--ghost-light" href="#contact">Meet all faculty</a></div>
+      </div>
+    </section>
+
+    <section class="admissions section section--paper" id="admissions" aria-labelledby="admissions-title">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow eyebrow--green">Admissions</p>
+          <h2 id="admissions-title">Your next chapter, <em>clearly mapped.</em></h2>
+          <p>The HBS admissions team provides guidance through application, review, enrollment, and visa preparation where required.</p>
+        </div>
+        <ol class="admission-steps">
+          <li class="reveal"><span>01</span><h3>Apply</h3><p>Submit the application form, required documents, and application fee.</p></li>
+          <li class="reveal"><span>02</span><h3>Interview</h3><p>The admissions team reviews the application and schedules an interview where applicable.</p></li>
+          <li class="reveal"><span>03</span><h3>Offer</h3><p>Accepted applicants receive an offer letter and student agreement.</p></li>
+          <li class="reveal"><span>04</span><h3>Prepare</h3><p>Complete enrollment steps and begin the visa process where required.</p></li>
+        </ol>
+        <div class="admissions__actions reveal">
+          <a class="button button--dark" href="#contact">How to apply</a>
+          <a class="arrow-link" href="#contact">View entry requirements <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="insights section section--cream" id="insights" aria-labelledby="insights-title">
+      <div class="shell">
+        <div class="insights__heading reveal">
+          <div>
+            <p class="eyebrow eyebrow--green">From the HBS community</p>
+            <h2 id="insights-title">Insights & <em>events.</em></h2>
+          </div>
+          <p>Explore themes already present in the HBS community, with future articles and events managed through WordPress.</p>
+        </div>
+        <div class="insight-topics">
+          <article class="insight-topic reveal"><span>01 / Topic</span><h3>Sustainable Business</h3><a href="#contact" aria-label="Explore Sustainable Business">Explore <b>↗</b></a></article>
+          <article class="insight-topic reveal"><span>02 / Topic</span><h3>Ethical Leadership</h3><a href="#contact" aria-label="Explore Ethical Leadership">Explore <b>↗</b></a></article>
+          <article class="insight-topic reveal"><span>03 / Topic</span><h3>Skill Building</h3><a href="#contact" aria-label="Explore Skill Building">Explore <b>↗</b></a></article>
+        </div>
+        <div class="insights__feed-note reveal">
+          <span>Dynamic WordPress feed</span>
+          <p>The latest approved articles and upcoming events will replace these topic entry points automatically.</p>
+          <a class="arrow-link" href="#contact">View all insights & events <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact section" id="contact" aria-labelledby="contact-title">
+      <div class="contact__ridge" aria-hidden="true"></div>
+      <div class="shell contact__grid">
+        <div class="reveal">
+          <p class="eyebrow">Take the next step</p>
+          <h2 id="contact-title">Build your future with <em>HBS.</em></h2>
+        </div>
+        <div class="contact__actions reveal">
+          <a class="button button--cream" href="#contact">Apply now <span aria-hidden="true">↗</span></a>
+          <a class="button button--ghost-light" href="mailto:info@hbs.swiss">Request information</a>
+          <a href="mailto:info@hbs.swiss">info@hbs.swiss</a>
+          <a href="tel:+41219212227">+41 21 921 22 27</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer__top">
+      <a class="brand-lockup brand-lockup--footer" href="#top" aria-label="Helvetic Business School and Helvetic Institute of Technology home">
+        <img class="brand-lockup__hbs" src="assets/hbs.svg" alt="Helvetic Business School">
+        <span aria-hidden="true">×</span>
+        <img class="brand-lockup__hit" src="assets/hit.svg" alt="Helvetic Institute of Technology">
+      </a>
+      <div class="footer__location"><span>Campus</span><strong>La Tour-de-Peilz<br>Switzerland</strong></div>
+      <div class="footer__links"><span>Explore</span><a href="#programs">Programs</a><a href="#admissions">Admissions</a><a href="#about">About HBS</a><a href="#campus">Student Experience</a></div>
+      <div class="footer__links"><span>Connect</span><a href="mailto:info@hbs.swiss">Email HBS</a><a href="#contact">Contact</a><a href="#insights">Insights & Events</a></div>
+    </div>
+    <div class="shell footer__bottom">
+      <p>© <span data-year></span> Helvetic Business School</p>
+      <div><a href="#">Privacy</a><a href="#">Cookies</a><a href="#">Accessibility</a></div>
+      <p>Homepage design concept</p>
+    </div>
+  </footer>
+</body>
+</html>
