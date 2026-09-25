@@ -8,7 +8,10 @@
   <link rel="icon" href="assets/hbs.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600&amp;family=Roboto:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <!-- Load fonts off the critical path; the preloader covers the swap-in. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600&amp;family=Roboto:wght@400;500;600;700&amp;display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600&amp;family=Roboto:wght@400;500;600;700&amp;display=swap"></noscript>
+  <link rel="preload" as="image" href="assets/images/classroom.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/main.js"></script>
 </head>
@@ -74,7 +77,10 @@
         </div>
       </div>
       <div class="hero__image" aria-hidden="true">
-        <img src="assets/images/classroom.jpg" alt="">
+        <picture>
+          <source srcset="assets/images/classroom.webp" type="image/webp">
+          <img src="assets/images/classroom.jpg" alt="" width="1800" height="1842" fetchpriority="high" decoding="async">
+        </picture>
       </div>
       <div class="hero__meta" aria-hidden="true">
         <span>46.6569° N</span>
@@ -299,7 +305,10 @@
           <a class="arrow-link" href="#contact">Discover HBS <span aria-hidden="true">↗</span></a>
         </div>
         <figure class="about__image reveal">
-          <img src="assets/images/campus-lounge.jpg" alt="Students and faculty in an interior lounge at HBS">
+          <picture>
+            <source srcset="assets/images/campus-lounge.webp" type="image/webp">
+            <img src="assets/images/campus-lounge.jpg" alt="Students and faculty in an interior lounge at HBS" width="1200" height="953" loading="lazy" decoding="async">
+          </picture>
           <figcaption>Personal learning. Professional perspective.</figcaption>
         </figure>
       </div>
@@ -315,9 +324,24 @@
           <a class="arrow-link" href="#contact">Explore student experience <span aria-hidden="true">↗</span></a>
         </div>
         <div class="campus__gallery">
-          <figure class="reveal"><img src="assets/images/campus-reception.jpg" alt="Reception and lounge interior at HBS"></figure>
-          <figure class="reveal"><img src="assets/images/classroom-session.jpg" alt="A small classroom session at HBS"></figure>
-          <figure class="reveal"><img src="assets/images/classroom-presentation.jpg" alt="Students taking part in a classroom presentation at HBS"></figure>
+          <figure class="reveal">
+            <picture>
+              <source srcset="assets/images/campus-reception.webp" type="image/webp">
+              <img src="assets/images/campus-reception.jpg" alt="Reception and lounge interior at HBS" width="1520" height="949" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <figure class="reveal">
+            <picture>
+              <source srcset="assets/images/classroom-session.webp" type="image/webp">
+              <img src="assets/images/classroom-session.jpg" alt="A small classroom session at HBS" width="809" height="877" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <figure class="reveal">
+            <picture>
+              <source srcset="assets/images/classroom-presentation.webp" type="image/webp">
+              <img src="assets/images/classroom-presentation.jpg" alt="Students taking part in a classroom presentation at HBS" width="900" height="1229" loading="lazy" decoding="async">
+            </picture>
+          </figure>
         </div>
       </div>
     </section>

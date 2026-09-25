@@ -7,20 +7,45 @@
   const mobileMenu = document.querySelector('.mobile-menu');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // sessionStorage can throw in locked-down browsing modes; never let it break the page.
+  const store = {
+    get: (key) => { try { return sessionStorage.getItem(key); } catch { return null; } },
+    set: (key, value) => { try { sessionStorage.setItem(key, value); } catch { /* ignore */ } },
+  };
+
   const finishLoading = () => {
     body.classList.remove('is-loading');
     preloader?.classList.add('is-hidden');
   };
 
-  if (reduceMotion || sessionStorage.getItem('hbs-preloader-seen')) {
+  // Reveal once the hero image and fonts are ready instead of waiting for window.load,
+  // which does not fire until every image on the page has downloaded.
+  const MIN_VISIBLE_MS = 900;
+  const MAX_VISIBLE_MS = 2600;
+
+  if (reduceMotion || store.get('hbs-preloader-seen')) {
     finishLoading();
   } else {
-    window.addEventListener('load', () => {
+    const startedAt = performance.now();
+    let revealed = false;
+
+    const reveal = () => {
+      if (revealed) return;
+      revealed = true;
+      // Let the logo animation finish, but never hold the page longer than the cap.
+      const remaining = Math.max(0, MIN_VISIBLE_MS - (performance.now() - startedAt));
       window.setTimeout(() => {
-        sessionStorage.setItem('hbs-preloader-seen', 'true');
+        store.set('hbs-preloader-seen', 'true');
         finishLoading();
-      }, 950);
-    });
+      }, remaining);
+    };
+
+    const heroImage = document.querySelector('.hero__image img');
+    const heroReady = heroImage?.decode ? heroImage.decode() : Promise.resolve();
+    const fontsReady = document.fonts?.ready ?? Promise.resolve();
+
+    Promise.all([heroReady, fontsReady]).catch(() => {}).then(reveal);
+    window.setTimeout(reveal, MAX_VISIBLE_MS);
   }
 
   const updateScroll = () => {
