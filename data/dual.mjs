@@ -1,0 +1,391 @@
+// Dual degree hub, dual bachelor page, and generated dual master pages.
+
+import { SITE, HERO, gallery, LOGOS } from './site.mjs';
+import { DUAL_MASTERS, DUAL_CAMPUS_TABLE, dualMasterFacts, dualMasterRequirements } from './programs.mjs';
+
+const GERMANY_BLOCK = {
+  type: 'cards',
+  tone: 'section--dark',
+  eyebrow: 'Why Germany?',
+  title: 'A top destination for <em>international careers.</em>',
+  lead: 'Germany is home to some of the world’s most successful companies, including BMW, Siemens, Deutsche Bank, SAP, Adidas and Volkswagen. With a strong demand for skilled professionals, Germany actively welcomes international graduates.',
+  cols: 3,
+  items: [
+    ['Scale', 'Europe’s largest economy', 'A strong demand for skilled professionals and a welcoming route for international graduates.'],
+    ['Industry', 'Global headquarters', 'Access to automotive, engineering, financial services, technology and consumer brand leaders.'],
+    ['Careers', 'Your path starts here', 'Graduates benefit from extended stay options and ISM’s strong industry reputation and global career support.'],
+  ],
+};
+
+const DUAL_NOTICE = {
+  type: 'note',
+  tone: 'section--mist',
+  text: 'Dual degree programs notice: the dual degree programs between ISM and HBS commence with the Fall intake, starting in September. Graduates earn two degrees. Additional fees might apply if an internship is completed in Germany after transferring.',
+};
+
+export const DUAL_HUB = {
+  route: 'programs/dual-degrees',
+  group: 'HBS × ISM',
+  title: 'Dual Degrees',
+  intro: 'Study in Switzerland and Germany with the HBS × ISM Dual Degree and earn two degrees in one program, at bachelor’s and master’s level.',
+  seoTitle: 'HBS × ISM Dual Degrees — study in Switzerland and Germany, earn two degrees',
+  seoDescription: 'Earn two degrees in one program with the HBS × ISM Dual Degree. Bachelor’s and master’s pathways across Switzerland and Germany, with ten master’s specialisations and CHF 11,000–13,500 per year.',
+  heroImage: HERO.dual,
+  breadcrumb: [['Programs', 'programs'], ['Dual Degrees', null]],
+  meta: ['Two countries', 'Two degrees', '10 master’s pathways'],
+  blocks: [
+    {
+      type: 'prose',
+      tone: 'section--paper',
+      eyebrow: 'Dual Degree Program',
+      title: 'Two countries, two degrees, <em>one global career.</em>',
+      paras: [
+        'Stand out in the job market with two internationally recognised business degrees. Study at Helvetic Business School in Switzerland and the International School of Management in Germany, earning a Swiss and a German degree while unlocking career opportunities across Europe.',
+        'The International School of Management (ISM) is a leading private university of applied sciences in Germany. Known for its strong focus on internationality and practical business education, ISM is accredited by AACSB and FIBAA and operates campuses in major cities like Frankfurt, Munich and Berlin. It ranks among the top business schools in Germany and offers programs designed to prepare students for global careers.',
+      ],
+    },
+    {
+      type: 'cards',
+      tone: 'section--mist',
+      eyebrow: 'Advantages',
+      title: 'Why choose the HBS × ISM Dual Degree?',
+      cols: 3,
+      items: [
+        ['01', 'Two degrees, one program', 'Graduate with a Swiss degree from HBS and a German degree from ISM, giving you a competitive edge worldwide.'],
+        ['02', 'Study in two European business hubs', 'Experience Swiss business excellence and Germany’s thriving economy.'],
+        ['03', 'Internships & practical learning', 'Gain real-world business experience through internships, projects and networking with top global companies.'],
+        ['04', 'Cost-effective', 'HBS students receive two degrees at a reduced fee.'],
+        ['05', 'International exposure', 'Study alongside students from 80+ countries and build a global network.'],
+        ['06', 'Simplified process', 'One application and tuition process via HBS, with HBS assuring the transfer to ISM.'],
+      ],
+    },
+    { type: 'route' },
+    {
+      type: 'tiles',
+      tone: 'section--paper',
+      eyebrow: 'Bachelor',
+      title: 'Bachelor’s Dual Degree',
+      lead: 'Graduate with two bachelor’s degrees: one from HBS, one from ISM.',
+      items: [
+        { tag: 'CHF 11,000 / year', title: 'BBA + B.Sc. International Management', text: 'Years 1 and 2 at HBS in Switzerland. Year 3 at ISM in Germany. Tuition CHF 11,000 per year across three years.', route: 'programs/dual-degrees/bba-international-management', image: gallery('g49'), alt: 'Bachelor dual degree students' },
+        { tag: 'HBS program', title: 'Standalone BBA', text: 'Prefer to study entirely in Switzerland? The three-year BBA is available as a standalone HBS program.', route: 'programs/bba', image: gallery('g27'), alt: 'BBA students at HBS' },
+      ],
+    },
+    {
+      type: 'tiles',
+      tone: 'section--mist',
+      eyebrow: 'Master',
+      title: 'Master’s Dual Degrees',
+      lead: 'Earn two master’s degrees: an MBA from HBS plus a choice of ten degrees from ISM in Germany.',
+      items: DUAL_MASTERS.slice(0, 6).map((p, i) => ({
+        tag: p.degree,
+        title: p.title,
+        text: `One year in Switzerland and one and a half years in Germany, at ${p.campuses}.`,
+        route: `programs/dual-degrees/${p.slug}`,
+        image: gallery(['g50', 'g46', 'g48', 'g47', 'g39', 'g40'][i % 6]),
+        alt: p.title,
+      })),
+    },
+    {
+      type: 'cards',
+      tone: 'section--paper',
+      eyebrow: 'All pathways',
+      title: 'The ten master’s specialisations',
+      cols: 2,
+      items: DUAL_MASTERS.map((p) => [`${p.degree}`, p.title, `Campus: ${p.campuses}`, `programs/dual-degrees/${p.slug}`, 'View program']),
+    },
+    {
+      type: 'table',
+      tone: 'section--mist',
+      eyebrow: 'Degree options',
+      title: 'Program, degree and campus availability',
+      caption: 'Master’s dual degree options published on hbs.swiss',
+      head: ['Program', 'Degree', 'Campus location'],
+      rows: DUAL_CAMPUS_TABLE,
+    },
+    {
+      type: 'facts',
+      tone: 'section--paper',
+      eyebrow: 'Tuition and Fees',
+      title: 'Program costs',
+      items: [
+        ['Bachelor dual degree', 'CHF 11,000 per year'],
+        ['Master dual degree', 'CHF 13,500 per year'],
+        ['Paid to', 'HBS — all fees are paid to HBS'],
+        ['Application fee', 'CHF 150'],
+      ],
+    },
+    {
+      type: 'cards',
+      tone: 'section--mist',
+      eyebrow: 'Admissions Requirements',
+      title: 'Entry requirements',
+      cols: 2,
+      items: [
+        ['Bachelor', 'Bachelor requirements', 'High school diploma or equivalent qualification, English language proficiency (IELTS, TOEFL or equivalent), motivation letter, CV or résumé, and transcripts and academic records.'],
+        ['Master', 'Master requirements', 'A bachelor’s degree recognised in Germany (contact us to check whether your degree is recognised) or an equivalent qualification, English language proficiency, motivation letter, CV or résumé, and transcripts and academic records. Students must have a degree from a school recognised as comparable to a German academic institution — your school must have the rating H+ on anabin.'],
+      ],
+    },
+    {
+      type: 'steps',
+      tone: 'section--paper',
+      eyebrow: 'How to Apply',
+      title: 'How to apply for the HBS × ISM Dual Degree',
+      items: [
+        ['01 / Start', 'Apply to HBS', 'Begin your studies in Switzerland with a single application and tuition process.'],
+        ['02 / Transfer', 'Transfer to ISM Germany', 'In your final year. HBS assures the transfer and all fees are paid to HBS.'],
+        ['03 / Experience', 'Complete an internship', 'Complete an internship where required, applying your learning in a professional environment.'],
+        ['04 / Graduate', 'Graduate with two degrees', 'Finish your thesis, graduate with two degrees, and stand out in the job market.'],
+      ],
+    },
+    GERMANY_BLOCK,
+    DUAL_NOTICE,
+    {
+      type: 'logos',
+      tone: 'section--paper',
+      eyebrow: 'Recognition',
+      title: 'Accreditations behind the dual degree',
+      items: [
+        [LOGOS.aacsb, 'AACSB — ISM'],
+        [LOGOS.fibaa, 'FIBAA — ISM'],
+      ],
+    },
+    { type: 'contact' },
+    { type: 'cta', eyebrow: 'Your future starts now', title: 'Two countries. <em>Two degrees.</em>' },
+  ],
+};
+
+export const DUAL_BBA = {
+  route: 'programs/dual-degrees/bba-international-management',
+  group: 'Dual Bachelor Degree',
+  title: 'BBA + Bachelor of Science in <em>International Management</em>',
+  intro: 'Set yourself apart in the competitive world of business by earning two prestigious undergraduate degrees, offered through HBS in Switzerland and ISM in Germany.',
+  seoTitle: 'BBA + B.Sc. International Management — dual bachelor degree with ISM',
+  seoDescription: 'Earn two bachelor’s degrees in three years: the HBS BBA and the ISM B.Sc. in International Management. Years 1 and 2 in Switzerland, Year 3 in Germany. Tuition CHF 11,000 per year.',
+  heroImage: HERO.dualBba,
+  breadcrumb: [['Programs', 'programs'], ['Dual Degrees', 'programs/dual-degrees'], ['BBA + B.Sc.', null]],
+  meta: ['3 years', 'Two degrees', 'CHF 11,000 per year'],
+  blocks: [
+    {
+      type: 'prose',
+      tone: 'section--paper',
+      eyebrow: 'Overview',
+      title: 'A powerful foundation in international business.',
+      paras: [
+        'The dual BBA + B.Sc. in International Management is offered through Helvetic Business School in Switzerland and the International School of Management in Germany.',
+        'This program provides a powerful foundation in international business, strategy and leadership while granting you a Swiss and a German degree, opening doors to global opportunities.',
+      ],
+    },
+    {
+      type: 'facts',
+      tone: 'section--mist',
+      eyebrow: 'Program Highlights',
+      title: 'At a glance',
+      items: [
+        ['Degrees awarded', 'BBA from HBS + B.Sc. in International Management from ISM'],
+        ['Duration', '3 years (Years 1 & 2 in Switzerland, Year 3 in Germany)'],
+        ['Study mode', 'Full-time'],
+        ['Location', 'La Tour-de-Peilz (CH) & ISM campus of choice in Germany'],
+        ['Language', 'English'],
+        ['Tuition', 'CHF 11,000 per year (all paid to HBS)'],
+      ],
+    },
+    { type: 'route' },
+    {
+      type: 'steps',
+      tone: 'section--paper',
+      eyebrow: 'Program Format',
+      title: 'Two years in Switzerland, one in Germany',
+      items: [
+        ['01 / HBS', 'Years 1 & 2 — HBS, Switzerland', 'Foundational courses in business principles, accounting, economics, marketing, organisational behaviour and communication, followed by advanced business courses in strategy, innovation, digital business, HRM, project management and business law, with ongoing assessments and team-based case studies.'],
+        ['02 / Internship', 'Internship', 'Apply hands-on knowledge acquired in class in a professional environment.'],
+        ['03 / ISM', 'Year 3 — ISM, Germany', 'Campus options include Frankfurt, Munich, Berlin, Hamburg, Dortmund, Stuttgart and Cologne. Final-year coursework in international management, finance and leadership.'],
+        ['04 / Thesis', 'Bachelor Thesis', 'Complete your thesis and graduate with two degrees.'],
+      ],
+    },
+    {
+      type: 'cards',
+      tone: 'section--mist',
+      eyebrow: 'Career Outlook',
+      title: 'Where graduates go',
+      lead: 'This dual degree equips graduates with an international profile and global career readiness. Possible career paths include:',
+      cols: 3,
+      items: [
+        ['01', 'International Sales Executive', 'Build and manage relationships across global markets.'],
+        ['02', 'Global Marketing Assistant', 'Support international marketing strategy and campaigns.'],
+        ['03', 'Business Analyst', 'Translate data into decisions inside multinational firms.'],
+        ['04', 'Junior Consultant', 'Support consulting engagements across sectors.'],
+        ['05', 'Management Trainee', 'Rotational development programmes at multinational firms.'],
+        ['06', 'Further study', 'Progress into the HBS MBA or a dual master’s degree.'],
+      ],
+    },
+    {
+      type: 'bullets',
+      tone: 'section--paper',
+      eyebrow: 'Admissions Requirements',
+      title: 'What you need to apply',
+      items: [
+        'High school diploma or equivalent qualification',
+        'English language proficiency (IELTS, TOEFL or equivalent)',
+        'Motivation letter',
+        'CV or résumé',
+        'Transcripts and academic records',
+      ],
+    },
+    {
+      type: 'steps',
+      tone: 'section--mist',
+      eyebrow: 'How to Apply',
+      title: 'Four steps to two degrees',
+      items: [
+        ['01', 'Apply to HBS', 'Apply directly to HBS for the BBA program.'],
+        ['02', 'Study in Switzerland', 'Complete your first and second years in La Tour-de-Peilz, Switzerland.'],
+        ['03', 'Transfer', 'Transfer to ISM Germany for your final academic year — HBS takes care of the transfer.'],
+        ['04', 'Graduate', 'Graduate with both the BBA and the B.Sc. in International Management.'],
+      ],
+    },
+    {
+      type: 'accordion',
+      tone: 'section--paper',
+      eyebrow: 'FAQ',
+      title: 'Common questions',
+      items: [
+        ['Can I choose my ISM campus in Germany?', 'Yes, students may select their preferred ISM campus in Germany for Year 3, although campus availability may vary.'],
+        ['Is the program taught in English?', 'No language barrier: the program is fully delivered in English.'],
+        ['Can international students apply?', 'Yes, provided all academic and visa requirements are met.'],
+        ['Are internships available?', 'Yes, internship opportunities are encouraged and supported.'],
+      ],
+    },
+    {
+      type: 'facts',
+      tone: 'section--mist',
+      eyebrow: 'Tuition & Fees',
+      title: 'Program cost',
+      items: [
+        ['Tuition', 'CHF 11,000 per year'],
+        ['Paid to', 'HBS — all tuition is paid to HBS'],
+        ['Additional', 'Additional living or administrative costs may apply'],
+        ['Duration', '3 years'],
+      ],
+    },
+    {
+      type: 'cards',
+      tone: 'section--paper',
+      eyebrow: 'Explore More',
+      title: 'Related programs',
+      cols: 3,
+      items: [
+        ['HBS program', 'Bachelor of Business Administration', 'The standalone three-year BBA in Switzerland.', 'programs/bba', 'View BBA'],
+        ['Master', 'MBA + ISM Master’s Degrees', 'Ten dual master’s pathways building on your bachelor’s degree.', 'programs/dual-degrees', 'View pathways'],
+        ['Overview', 'All dual degrees', 'Program structure, campus options, tuition and the transfer process.', 'programs/dual-degrees', 'View overview'],
+      ],
+    },
+    { type: 'contact' },
+    { type: 'cta', eyebrow: 'Your future starts now', title: 'Graduate with <em>two degrees.</em>' },
+  ],
+};
+
+export function dualMasterPage(program) {
+  return {
+    route: `programs/dual-degrees/${program.slug}`,
+    group: 'Dual Master Degree',
+    title: program.title.replace('&', '&amp;'),
+    intro: program.intro,
+    seoTitle: `${program.title} — HBS × ISM dual degree in Switzerland and Germany`,
+    seoDescription: `${program.title}: study one year in Switzerland and one and a half years in Germany, graduating with an MBA from HBS and a ${program.degree} from ISM. Tuition CHF 13,500 per year.`,
+    heroImage: gallery(['g50', 'g46', 'g48', 'g47', 'g39', 'g40', 'g41', 'g42', 'g43', 'g44'][DUAL_MASTERS.indexOf(program) % 10]),
+    breadcrumb: [['Programs', 'programs'], ['Dual Degrees', 'programs/dual-degrees'], [program.short, null]],
+    meta: ['2.5 years', 'Two master’s degrees', 'CHF 13,500 per year'],
+    blocks: [
+      {
+        type: 'prose',
+        tone: 'section--paper',
+        eyebrow: 'Overview',
+        title: 'Earn a dual degree in Switzerland and Germany.',
+        paras: program.intro.split(/(?<=\.)\s+/),
+      },
+      {
+        type: 'facts',
+        tone: 'section--mist',
+        eyebrow: 'Program Highlights',
+        title: 'At a glance',
+        items: dualMasterFacts(program),
+      },
+      { type: 'route' },
+      ...(program.highlights ? [{ type: 'bullets', tone: 'section--paper', eyebrow: 'Why this program?', title: 'Program highlights', items: program.highlights }] : []),
+      {
+        type: 'steps',
+        tone: program.highlights ? 'section--mist' : 'section--paper',
+        eyebrow: 'Program Format',
+        title: 'One year in Switzerland, then Germany',
+        items: [
+          ['01 / HBS', 'Year 1 — HBS, Switzerland', program.year1],
+          ['02 / Transfer', 'Year 2 — ISM, Germany', program.year2],
+          ['03 / Thesis', 'Final semester — ISM', 'Write and defend your Master’s thesis and complete an internship.'],
+          ['04 / Graduate', 'Two master’s degrees', 'Graduate with an MBA from HBS and a ' + program.degree + ' from ISM.'],
+        ],
+      },
+      {
+        type: 'cards',
+        tone: 'section--mist',
+        eyebrow: 'Career Outlook',
+        title: 'Where graduates go',
+        lead: `Graduates are prepared to take on roles as ${program.careerLabel}. Typical job titles include:`,
+        cols: 3,
+        items: program.careers.map((c, i) => [`0${i + 1}`, c, `A role open to graduates of the ${program.short} pathway.`]),
+      },
+      {
+        type: 'bullets',
+        tone: 'section--paper',
+        eyebrow: 'Admissions Requirements',
+        title: 'What you need to apply',
+        items: dualMasterRequirements,
+      },
+      {
+        type: 'steps',
+        tone: 'section--mist',
+        eyebrow: 'How to Apply',
+        title: 'Four steps to two master’s degrees',
+        items: [
+          ['01', 'Apply to HBS', `Apply to the MBA program at HBS for the ${program.short} pathway.`],
+          ['02', 'Study in Switzerland', 'Complete your first academic year in La Tour-de-Peilz, Switzerland.'],
+          ['03', 'Transfer', `Transition to ISM in Germany for Year 2 at ${program.campuses}.`],
+          ['04', 'Graduate', 'Complete your Master’s thesis and graduate with both degrees.'],
+        ],
+      },
+      {
+        type: 'accordion',
+        tone: 'section--paper',
+        eyebrow: 'FAQ',
+        title: 'Common questions',
+        items: program.faq,
+      },
+      {
+        type: 'facts',
+        tone: 'section--mist',
+        eyebrow: 'Tuition & Fees',
+        title: 'Program cost',
+        items: [
+          ['Tuition', 'CHF 13,500 per year'],
+          ['Paid to', 'HBS — all tuition is paid to HBS'],
+          ['Additional', 'Additional costs may apply'],
+          ['Duration', '2.5 years — 1 year in Switzerland, 1.5 years in Germany'],
+        ],
+      },
+      {
+        type: 'cards',
+        tone: 'section--paper',
+        eyebrow: 'Explore More Dual Degrees',
+        title: 'Other pathways',
+        cols: 3,
+        items: DUAL_MASTERS.filter((p) => p.slug !== program.slug).slice(0, 3).map((p) => ['HBS × ISM', p.title, `Campus: ${p.campuses}`, `programs/dual-degrees/${p.slug}`, 'View program']),
+      },
+      { type: 'contact' },
+      { type: 'cta', eyebrow: 'Ready to apply', title: `Start your ${program.degree} application to <em>HBS.</em>` },
+    ],
+  };
+}
+
+export const DUAL_MASTER_PAGES = DUAL_MASTERS.map(dualMasterPage);
+export const DUAL_NOTICE_BLOCK = DUAL_NOTICE;
+export const HBS_APPLY_URL = SITE.applyUrl;
