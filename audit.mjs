@@ -14,7 +14,11 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 // are rooted at the deployed site ('/hbs-demo/assets/…'). Map those back onto
 // this folder before resolving them on disk.
 const siteRoot = new URL(SITE.url).pathname.replace(/\/?$/, '/');
-const onDisk = (dir, ref) => (ref.startsWith(siteRoot) ? path.join(root, ref.slice(siteRoot.length)) : path.resolve(dir, ref));
+const withoutQuery = (ref) => ref.split('?')[0];
+const onDisk = (dir, ref) => {
+  const cleanRef = withoutQuery(ref);
+  return cleanRef.startsWith(siteRoot) ? path.join(root, cleanRef.slice(siteRoot.length)) : path.resolve(dir, cleanRef);
+};
 
 async function walk(dir) {
   const found = [];
@@ -43,7 +47,7 @@ for (const file of htmlFiles) {
   const rel = path.relative(root, file).split(path.sep).join('/');
 
   // Assets
-  for (const src of [...html.matchAll(/(?:src|href)="([^"#]+?\.(?:svg|jpg|jpeg|png|webp|css|js|xml|json|txt))"/g)].map((m) => m[1])) {
+  for (const src of [...html.matchAll(/(?:src|href)="([^"#]+?\.(?:svg|jpg|jpeg|png|webp|css|js|xml|json|txt)(?:\?[^"#]*)?)"/g)].map((m) => m[1])) {
     if (/^https?:|^mailto:|^tel:|^data:/.test(src)) continue;
     assetRefs += 1;
     if (retired.test(src)) problems.push(`${rel}: retired asset referenced → ${src}`);
@@ -52,7 +56,7 @@ for (const file of htmlFiles) {
 
   // Internal page links (fragments are resolved and then verified)
   for (const raw of [...html.matchAll(/href="([^"#:+][^"]*)"/g)].map((m) => m[1])) {
-    if (/\.(svg|jpg|jpeg|png|webp|css|js|xml|json|txt)$/.test(raw)) continue;
+    if (/\.(svg|jpg|jpeg|png|webp|css|js|xml|json|txt)(?:\?[^#]*)?$/.test(raw)) continue;
     if (/^(mailto:|tel:|https?:|#)/.test(raw)) continue;
     linkRefs += 1;
     const [target, fragment] = raw.split('#');

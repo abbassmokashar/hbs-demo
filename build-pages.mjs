@@ -22,6 +22,9 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 // was requested, so its relative links would otherwise resolve against the wrong
 // directory.
 const SITE_ROOT = new URL(SITE.url).pathname.replace(/\/?$/, '/');
+// Change this whenever shared front-end assets change so static hosts and
+// browsers cannot keep serving an older stylesheet or script after a deploy.
+const ASSET_VERSION = '20260929d';
 const stripTags = (value) => String(value).replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 
 /* ------------------------------------------------------------------------ Pages */
@@ -138,8 +141,8 @@ function head(page, prefix) {
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Roboto:wght@400;500;600;700&amp;display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Roboto:wght@400;500;600;700&amp;display=swap"></noscript>
   <link rel="preload" as="image" href="${prefix}${page.heroImage}" fetchpriority="high">
-  <link rel="stylesheet" href="${prefix}assets/styles.css">
-  <link rel="stylesheet" href="${prefix}assets/pages.css">
+  <link rel="stylesheet" href="${prefix}assets/styles.css?v=${ASSET_VERSION}">
+  <link rel="stylesheet" href="${prefix}assets/pages.css?v=${ASSET_VERSION}">
   ${schema.map((s) => `<script type="application/ld+json">${JSON.stringify(s)}</script>`).join('\n  ')}`;
 }
 
@@ -172,8 +175,8 @@ function documentFor(page) {
   ${footer(prefix)}
   ${searchOverlay(prefix)}
   <button class="to-top" type="button" aria-label="Back to top">↑</button>
-  <script>window.HBS_BASE = ${JSON.stringify(prefix)};</script>
-  <script defer src="${prefix}assets/main.js"></script>
+  <script>window.HBS_BASE = ${JSON.stringify(prefix)}; window.HBS_ASSET_VERSION = ${JSON.stringify(ASSET_VERSION)};</script>
+  <script defer src="${prefix}assets/main.js?v=${ASSET_VERSION}"></script>
 </body>
 </html>
 `;

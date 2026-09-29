@@ -9,6 +9,9 @@
   }, 2600);
 
   const BASE = window.HBS_BASE || '';
+  const ASSET_QUERY = window.HBS_ASSET_VERSION
+    ? `?v=${encodeURIComponent(window.HBS_ASSET_VERSION)}`
+    : '';
   const body = document.body;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const header = document.querySelector('[data-header]');
@@ -145,10 +148,10 @@
     }
     indexPromise = new Promise((resolve) => {
       const script = document.createElement('script');
-      script.src = `${BASE}assets/search-index.js`;
+      script.src = `${BASE}assets/search-index.js${ASSET_QUERY}`;
       script.onload = () => { index = Array.isArray(window.HBS_SEARCH_INDEX) ? window.HBS_SEARCH_INDEX : []; resolve(index); };
       script.onerror = () => {
-        fetch(`${BASE}assets/search-index.json`)
+        fetch(`${BASE}assets/search-index.json${ASSET_QUERY}`)
           .then((r) => (r.ok ? r.json() : []))
           .then((data) => { index = Array.isArray(data) ? data : []; resolve(index); })
           .catch(() => { index = []; resolve(index); });
