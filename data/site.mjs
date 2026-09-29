@@ -52,7 +52,7 @@ export const DIM = {
 export const gallery = (id) => `assets/images/gallery/${id}.webp`;
 
 export const dimsOf = (src) => {
-  if (src.endsWith('acbsp-member.webp')) return [900, 1023];
+  if (src.endsWith('acbsp-member.webp')) return [1080, 1350];
   const match = /g(\d\d)/.exec(src);
   return match && DIM[`g${match[1]}`] ? DIM[`g${match[1]}`] : [1600, 1067];
 };

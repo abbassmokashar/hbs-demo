@@ -76,18 +76,16 @@ export const OTHER_PAGES = [
     meta: ['Admissions & applications', 'Fees & finance', 'Visa & registration'],
     blocks: [
       {
-        type: 'filterSearch',
-        tone: 'section--mist',
-        eyebrow: 'FAQ finder',
-        title: 'Search the FAQs',
-        lead: 'Type a topic, question or keyword to filter every answer on this page.',
-        placeholder: 'Search questions and answers…',
-        target: 'faq',
-      },
-      {
         type: 'note',
         tone: 'section--paper',
         text: `HBS is based at ${SITE.address.street}, ${SITE.address.city}, ${SITE.address.country}. For a specific course, fill out the request-information form and we will send you the requested program overview. For unique questions, email ${SITE.email} or book a call.`,
+      },
+      {
+        type: 'filterSearch',
+        tone: 'section--paper',
+        title: 'Search the FAQs',
+        placeholder: 'Search questions and answers…',
+        target: 'faq',
       },
       { type: 'accordion', tone: 'section--paper', eyebrow: 'Admissions and applications', title: 'Admissions and applications', items: FAQ_ADMISSIONS },
       { type: 'accordion', tone: 'section--mist', eyebrow: 'Fees and finance', title: 'Fees and finance', items: FAQ_FEES },

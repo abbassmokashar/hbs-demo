@@ -360,15 +360,6 @@ export const ABOUT_PAGES = [
     meta: ['16 published policies', 'Governance', 'Student regulations'],
     blocks: [
       {
-        type: 'filterSearch',
-        tone: 'section--mist',
-        eyebrow: 'Policy finder',
-        title: 'Search the policy register',
-        lead: 'Find a policy instantly by its title or subject.',
-        placeholder: 'Search policies…',
-        target: 'policies',
-      },
-      {
         type: 'prose',
         tone: 'section--paper',
         eyebrow: 'Governance',
@@ -377,6 +368,13 @@ export const ABOUT_PAGES = [
           'Helvetic Business School maintains a set of institutional policies covering academic quality, staff and student conduct, data protection, finance, admissions, teaching and the full student lifecycle.',
           'Each entry below links to its own location on this page and lets you request the official document directly from the HBS registry, so you always receive the current, version-dated edition.',
         ],
+      },
+      {
+        type: 'filterSearch',
+        tone: 'section--paper',
+        title: 'Search policies',
+        placeholder: 'Search by policy title or subject…',
+        target: 'policies',
       },
       {
         type: 'policyList',
