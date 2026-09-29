@@ -24,7 +24,7 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = new URL(SITE.url).pathname.replace(/\/?$/, '/');
 // Change this whenever shared front-end assets change so static hosts and
 // browsers cannot keep serving an older stylesheet or script after a deploy.
-const ASSET_VERSION = '20260929d';
+const ASSET_VERSION = '20260929e';
 const stripTags = (value) => String(value).replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 
 /* ------------------------------------------------------------------------ Pages */
@@ -133,8 +133,8 @@ function head(page, prefix) {
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(description)}">
   <meta name="twitter:image" content="${heroAbs}">
-  <link rel="icon" href="${prefix}${LOGO.hbs}" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="${prefix}${LOGO.hbs}">
+  <link rel="icon" href="${prefix}${LOGO.favicon}?v=${ASSET_VERSION}" type="image/webp">
+  <link rel="apple-touch-icon" href="${prefix}${LOGO.favicon}?v=${ASSET_VERSION}">
   <link rel="sitemap" type="application/xml" href="${prefix}sitemap.xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

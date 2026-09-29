@@ -24,6 +24,7 @@ export const SITE = {
 export const LOGO = {
   hbs: 'assets/images/brand/hbs-ink.webp',
   hbsWhite: 'assets/images/brand/hbs-white.webp',
+  favicon: 'assets/images/brand/hbs-favicon.webp',
   hit: 'assets/hit.webp',
 };
 
