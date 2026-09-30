@@ -484,6 +484,77 @@
       let lead = null;
       try { lead = JSON.parse(localStorage.getItem('hbsInvestmentLeadV1') || 'null'); } catch (_) { /* local storage may be unavailable */ }
       const degreeOptions = programs.map((p) => `<option value="${p.id}" ${p.id === queryProgram ? 'selected' : ''}>${p.name}</option>`).join('');
+      const loadImage = (src, timeout = 5000) => new Promise((resolve, reject) => {
+        const image = new Image();
+        const timer = setTimeout(() => reject(new Error('The HBS logo took too long to load.')), timeout);
+        image.onload = () => { clearTimeout(timer); resolve(image); };
+        image.onerror = () => { clearTimeout(timer); reject(new Error('The HBS logo could not be loaded.')); };
+        image.src = src;
+      });
+      const createEstimatePdf = async (estimate) => {
+        const width = 1240; const height = 1754; const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height;
+        const ctx = canvas.getContext('2d'); const deep = '#002c27'; const burgundy = '#7b2338'; const teal = '#439c9b'; const muted = '#536562';
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, width, height);
+        try {
+          const logo = await loadImage(`${base}assets/images/brand/hbs-ink.webp`);
+          const logoWidth = 280; const logoHeight = logo.naturalHeight / logo.naturalWidth * logoWidth;
+          ctx.drawImage(logo, 74, 70, logoWidth, logoHeight);
+        } catch (_) {
+          ctx.fillStyle = deep; ctx.font = '700 42px Arial'; ctx.fillText('HBS', 74, 118);
+        }
+        ctx.fillStyle = teal; ctx.fillRect(74, 245, 1092, 7);
+        ctx.fillStyle = deep; ctx.font = '700 62px Arial'; ctx.fillText('Investment estimate', 74, 335);
+        ctx.fillStyle = muted; ctx.font = '26px Arial'; ctx.fillText(`Prepared ${new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date())}`, 74, 378);
+        const field = (label, value, x, y, max = 500) => {
+          ctx.fillStyle = burgundy; ctx.font = '700 18px Arial'; ctx.fillText(label.toUpperCase(), x, y);
+          ctx.fillStyle = deep; ctx.font = '28px Arial';
+          const words = String(value || '—').split(' '); let line = ''; let lineY = y + 39;
+          words.forEach((word) => { const next = `${line}${line ? ' ' : ''}${word}`; if (ctx.measureText(next).width > max && line) { ctx.fillText(line, x, lineY); line = word; lineY += 34; } else line = next; });
+          ctx.fillText(line, x, lineY);
+        };
+        ctx.fillStyle = '#f2f5f1'; ctx.fillRect(74, 420, 1092, 285);
+        field('Applicant', `${lead?.firstName || ''} ${lead?.lastName || ''}`, 110, 450, 440);
+        field('Email', lead?.email, 110, 550, 440);
+        field('Country', lead?.country, 110, 635, 440);
+        field('Program', estimate.program, 650, 450, 450);
+        field('Degree of interest', lead?.degree, 650, 570, 450);
+        field('Preferred intake', estimate.intake, 650, 635, 450);
+        ctx.fillStyle = deep; ctx.fillRect(74, 735, 1092, 220);
+        ctx.fillStyle = '#ffffff'; ctx.font = '22px Arial'; ctx.fillText('ESTIMATED FULL-PROGRAM INVESTMENT', 110, 800);
+        ctx.fillStyle = '#f3e7c6'; ctx.font = '700 82px Arial'; ctx.fillText(estimate.total, 110, 893);
+        ctx.fillStyle = '#ffffff'; ctx.globalAlpha = .72; ctx.font = '23px Arial'; ctx.fillText('Tuition, selected living scenario and applicable one-time costs', 110, 933); ctx.globalAlpha = 1;
+        ctx.fillStyle = deep; ctx.font = '700 35px Arial'; ctx.fillText('Cost breakdown', 74, 1015);
+        const costs = [['Tuition', estimate.tuition], ['Living costs', estimate.living], ['One-time costs', estimate.oneTime]];
+        costs.forEach(([label, value], index) => {
+          const y = 1065 + index * 78; ctx.strokeStyle = '#d7dfdb'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(74, y + 50); ctx.lineTo(1166, y + 50); ctx.stroke();
+          ctx.fillStyle = muted; ctx.font = '25px Arial'; ctx.fillText(label, 74, y + 28); ctx.fillStyle = deep; ctx.font = '700 27px Arial'; ctx.textAlign = 'right'; ctx.fillText(value, 1166, y + 28); ctx.textAlign = 'left';
+        });
+        ctx.fillStyle = '#f7f2e9'; ctx.fillRect(74, 1325, 1092, 190);
+        [['First study year', estimate.firstYear], ['Average per month', estimate.monthly], ['Program length', estimate.duration]].forEach(([label, value], index) => {
+          const x = 108 + index * 360; ctx.fillStyle = burgundy; ctx.font = '700 17px Arial'; ctx.fillText(label.toUpperCase(), x, 1382); ctx.fillStyle = deep; ctx.font = '700 31px Arial'; ctx.fillText(value, x, 1432);
+        });
+        ctx.fillStyle = muted; ctx.font = '21px Arial';
+        const disclaimer = 'This estimate is indicative and intended for planning purposes. Tuition, fees and personal living costs may change. HBS admissions will confirm current charges and payment arrangements.';
+        const words = disclaimer.split(' '); let line = ''; let y = 1600;
+        words.forEach((word) => { const next = `${line}${line ? ' ' : ''}${word}`; if (ctx.measureText(next).width > 1060 && line) { ctx.fillText(line, 74, y); line = word; y += 31; } else line = next; }); ctx.fillText(line, 74, y);
+        const jpeg = await new Promise((resolve, reject) => canvas.toBlob((blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error('This browser could not create the estimate document.'));
+        }, 'image/jpeg', .94));
+        const imageBytes = new Uint8Array(await jpeg.arrayBuffer()); const encoder = new TextEncoder(); const chunks = []; const offsets = [0]; let size = 0;
+        const pushText = (text) => { const bytes = encoder.encode(text); chunks.push(bytes); size += bytes.length; };
+        const pushBytes = (bytes) => { chunks.push(bytes); size += bytes.length; };
+        pushText('%PDF-1.4\n');
+        const object = (id, content) => { offsets[id] = size; pushText(`${id} 0 obj\n${content}\nendobj\n`); };
+        object(1, '<< /Type /Catalog /Pages 2 0 R >>');
+        object(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+        object(3, '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
+        offsets[4] = size; pushText(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${imageBytes.length} >>\nstream\n`); pushBytes(imageBytes); pushText('\nendstream\nendobj\n');
+        const stream = 'q 595 0 0 842 0 0 cm /Im0 Do Q'; object(5, `<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
+        const xref = size; pushText('xref\n0 6\n0000000000 65535 f \n'); for (let id = 1; id <= 5; id += 1) pushText(`${String(offsets[id]).padStart(10, '0')} 00000 n \n`);
+        pushText(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
+        const pdf = new Blob(chunks, { type: 'application/pdf' }); const url = URL.createObjectURL(pdf); const link = document.createElement('a'); link.href = url; link.download = `HBS-investment-estimate-${String(estimate.program).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.pdf`; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+      };
       const renderGate = () => {
         toolRoot.innerHTML = `<div class="investment-gate"><div class="investment-gate__story"><p class="eyebrow eyebrow--teal">Before the numbers</p><h2>Let us make your estimate <em>personal.</em></h2><p>Tell HBS what you are considering, then shape a realistic study-and-living scenario around your plans.</p><ol><li><span>01</span>Introduce your study interests</li><li><span>02</span>Build your personal cost scenario</li><li><span>03</span>Receive the finished estimate by email</li></ol><p class="privacy-note">HBS uses the details you provide to prepare your estimate and support your admissions enquiry. <a href="${base}about/policies/">Read our policies</a>.</p></div><div class="investment-gate__form"><form class="lead-form" data-investment-lead><div class="lead-form__intro"><span>Required details</span><h3>Start your investment plan</h3><p>All fields are required.</p></div><div class="lead-form__grid"><label>First name<input type="text" name="first-name" autocomplete="given-name" required></label><label>Last name<input type="text" name="last-name" autocomplete="family-name" required></label><label>Email<input type="email" name="email" autocomplete="email" required></label><label>Phone<input type="tel" name="phone" autocomplete="tel" required></label><label>Country<input type="text" name="country" autocomplete="country-name" required></label><label>Degree of interest<select name="degree-of-interest" required><option value="">Choose a degree level</option><option>Bachelor</option><option>Master</option><option>Executive education</option></select></label><label class="lead-form__wide">Program of interest<select name="program-of-interest" required><option value="">Choose a program</option>${degreeOptions}</select></label><label class="lead-form__wide">Preferred intake<select name="preferred-intake" required><option value="">Choose an intake</option><option>September</option><option>January</option><option>April</option><option>Not sure yet</option></select></label></div><button class="btn btn--apply btn--block" type="submit"><span>Open my planner</span><span class="btn__arrow" aria-hidden="true">↗</span></button></form></div></div>`;
         toolRoot.querySelector('[data-investment-lead]').addEventListener('submit', (event) => {
@@ -503,7 +574,7 @@
         const chosenId = lead?.program || queryProgram;
         const selected = degreePrograms.find((p) => p.id === chosenId) || degreePrograms[0];
         let latestEstimate = null;
-        toolRoot.innerHTML = `${toolHeader('Plan Your Investment', 'Shape a scenario around <em>your life.</em>', 'Move the choices and figures. Your estimate updates instantly and stays private in your browser.')}<div class="investment-layout"><form class="investment-controls" data-investment-form><fieldset><legend><span>01</span>Study plan</legend><label>Program<select name="program">${degreePrograms.map((p) => `<option value="${p.id}" ${p.id === selected.id ? 'selected' : ''}>${p.name}</option>`).join('')}</select></label><label>Preferred intake<select name="intake"><option ${lead?.intake === 'September' ? 'selected' : ''}>September</option><option ${lead?.intake === 'January' ? 'selected' : ''}>January</option><option ${lead?.intake === 'April' ? 'selected' : ''}>April</option></select></label><label>Planning period<select name="months"><option value="10">10 months per study year</option><option value="12" selected>12 months per study year</option></select></label></fieldset><fieldset><legend><span>02</span>Living scenario</legend><label>Accommodation<select name="housing"><option value="750">Shared / student housing — from CHF 750</option><option value="1200">Private studio — estimate CHF 1,200</option><option value="0">Living with family / commuting</option></select></label><div class="range-field"><label for="food">Food &amp; essentials <output data-out="food">CHF 450</output></label><input id="food" name="food" type="range" min="250" max="900" step="25" value="450"></div><div class="range-field"><label for="transport">Local transport <output data-out="transport">CHF 60</output></label><input id="transport" name="transport" type="range" min="0" max="300" step="10" value="60"></div><div class="range-field"><label for="personal">Personal budget <output data-out="personal">CHF 250</output></label><input id="personal" name="personal" type="range" min="100" max="800" step="25" value="250"></div></fieldset><fieldset><legend><span>03</span>Arrival</legend><label>Student status<select name="visa"><option value="0">EU / EFTA</option><option value="250">Non-EU / EFTA — indicative permit allowance</option></select></label><label class="check-line"><input type="checkbox" name="insurance" checked><span>Include indicative health insurance (CHF 1,300/year)</span></label><label class="check-line"><input type="checkbox" name="books" checked><span>Include books and materials (CHF 300/year)</span></label></fieldset></form><aside class="investment-result"><p class="eyebrow eyebrow--teal">Your working estimate</p><h3 data-result-program></h3><div class="investment-total"><span>Full program estimate</span><strong data-result-total></strong><small>Tuition + selected living scenario</small></div><div class="investment-bars" data-result-bars></div><dl><div><dt>First study year</dt><dd data-result-first></dd></div><div><dt>Average per month</dt><dd data-result-month></dd></div><div><dt>Program length</dt><dd data-result-duration></dd></div></dl><p class="estimate-note">Indicative planning estimate only. Fees and personal costs can change; HBS admissions will confirm current charges and payment arrangements.</p><div class="estimate-delivery" data-estimate-delivery aria-live="polite"></div><div class="tool-actions"><button class="btn btn--cream" type="button" data-print-estimate><span>Print estimate</span></button><button class="btn btn--apply" type="button" data-receive-estimate><span>Receive my estimate</span><span class="btn__arrow">↗</span></button></div></aside></div>`;
+        toolRoot.innerHTML = `${toolHeader('Plan Your Investment', 'Shape a scenario around <em>your life.</em>', 'Move the choices and figures to see your estimate update instantly.')}<div class="investment-layout"><form class="investment-controls" data-investment-form><fieldset><legend><span>01</span>Study plan</legend><label>Program<select name="program">${degreePrograms.map((p) => `<option value="${p.id}" ${p.id === selected.id ? 'selected' : ''}>${p.name}</option>`).join('')}</select></label><label>Preferred intake<select name="intake"><option ${lead?.intake === 'September' ? 'selected' : ''}>September</option><option ${lead?.intake === 'January' ? 'selected' : ''}>January</option><option ${lead?.intake === 'April' ? 'selected' : ''}>April</option></select></label><label>Planning period<select name="months"><option value="10">10 months per study year</option><option value="12" selected>12 months per study year</option></select></label></fieldset><fieldset><legend><span>02</span>Living scenario</legend><label>Accommodation<select name="housing"><option value="750">Shared / student housing — from CHF 750</option><option value="1200">Private studio — estimate CHF 1,200</option><option value="0">Living with family / commuting</option></select></label><div class="range-field"><label for="food">Food &amp; essentials <output data-out="food">CHF 450</output></label><input id="food" name="food" type="range" min="250" max="900" step="25" value="450"></div><div class="range-field"><label for="transport">Local transport <output data-out="transport">CHF 60</output></label><input id="transport" name="transport" type="range" min="0" max="300" step="10" value="60"></div><div class="range-field"><label for="personal">Personal budget <output data-out="personal">CHF 250</output></label><input id="personal" name="personal" type="range" min="100" max="800" step="25" value="250"></div></fieldset><fieldset><legend><span>03</span>Arrival</legend><label>Student status<select name="visa"><option value="0">EU / EFTA</option><option value="250">Non-EU / EFTA — indicative permit allowance</option></select></label><label class="check-line"><input type="checkbox" name="insurance" checked><span>Include indicative health insurance (CHF 1,300/year)</span></label><label class="check-line"><input type="checkbox" name="books" checked><span>Include books and materials (CHF 300/year)</span></label></fieldset></form><aside class="investment-result"><p class="eyebrow eyebrow--teal">Your working estimate</p><h3 data-result-program></h3><div class="investment-total"><span>Full program estimate</span><strong data-result-total></strong><small>Tuition + selected living scenario</small></div><div class="investment-bars" data-result-bars></div><dl><div><dt>First study year</dt><dd data-result-first></dd></div><div><dt>Average per month</dt><dd data-result-month></dd></div><div><dt>Program length</dt><dd data-result-duration></dd></div></dl><p class="estimate-note">Indicative planning estimate only. Fees and personal costs can change; HBS admissions will confirm current charges and payment arrangements.</p><div class="estimate-delivery" data-estimate-delivery aria-live="polite"></div><div class="tool-actions"><button class="btn btn--apply" type="button" data-receive-estimate><span>Receive my estimate</span><span class="btn__arrow">↗</span></button></div></aside></div>`;
         const form = toolRoot.querySelector('[data-investment-form]');
         const update = () => {
           const data = new FormData(form); const program = degreePrograms.find((p) => p.id === data.get('program')) || degreePrograms[0];
@@ -521,15 +592,30 @@
           toolRoot.querySelector('[data-result-duration]').textContent = program.duration;
           toolRoot.querySelector('[data-result-bars]').innerHTML = [['Tuition', tuitionTotal], ['Living', livingTotal], ['One-time', oneTime]].map(([label, value]) => `<div><span><b>${label}</b><em>${money(value)}</em></span><i style="--share:${Math.max(4, value / total * 100)}%"></i></div>`).join('');
           ['food', 'transport', 'personal'].forEach((key) => { toolRoot.querySelector(`[data-out="${key}"]`).textContent = money(Number(data.get(key))); });
-          latestEstimate = { program: program.name, intake: data.get('intake'), total: money(total), firstYear: money(first), monthly: money(total / Math.max(1, program.years * (executive ? 12 : months))), duration: program.duration, recipient: lead?.email, updatedAt: new Date().toISOString() };
+          latestEstimate = { program: program.name, intake: data.get('intake'), total: money(total), tuition: money(tuitionTotal), living: money(livingTotal), oneTime: money(oneTime), firstYear: money(first), monthly: money(total / Math.max(1, program.years * (executive ? 12 : months))), duration: program.duration, recipient: lead?.email, updatedAt: new Date().toISOString() };
         };
-        form.addEventListener('input', update); form.addEventListener('change', update); toolRoot.querySelector('[data-print-estimate]').addEventListener('click', () => window.print());
-        toolRoot.querySelector('[data-receive-estimate]').addEventListener('click', () => {
+        form.addEventListener('input', update); form.addEventListener('change', update);
+        toolRoot.querySelector('[data-receive-estimate]').addEventListener('click', async (event) => {
+          const button = event.currentTarget; const buttonLabel = button.querySelector('span'); const delivery = toolRoot.querySelector('[data-estimate-delivery]');
+          button.disabled = true; buttonLabel.textContent = 'Preparing PDF…'; delivery.classList.remove('is-visible');
           try { localStorage.setItem('hbsPendingEstimateV1', JSON.stringify({ lead, estimate: latestEstimate })); } catch (_) {}
-          const delivery = toolRoot.querySelector('[data-estimate-delivery]');
-          delivery.innerHTML = `<strong>Estimate prepared</strong><span>Your estimate is ready for <b></b>. You can continue adjusting the figures or print a copy now.</span>`;
-          delivery.querySelector('b').textContent = lead?.email || 'your email';
-          delivery.classList.add('is-visible');
+          try {
+            await Promise.race([
+              createEstimatePdf(latestEstimate),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('The PDF took too long to prepare.')), 15000)),
+            ]);
+            delivery.innerHTML = `<strong>Estimate ready</strong><span>Your HBS estimate PDF has been downloaded. A copy is prepared for <b></b>.</span>`;
+            delivery.querySelector('b').textContent = lead?.email || 'your email';
+            delivery.classList.add('is-visible');
+            buttonLabel.textContent = 'Download another copy';
+          } catch (error) {
+            console.error('HBS estimate PDF error:', error);
+            delivery.innerHTML = '<strong>We could not prepare the PDF</strong><span>Please try again. Your estimate and selections are still here.</span>';
+            delivery.classList.add('is-visible');
+            buttonLabel.textContent = 'Try again';
+          } finally {
+            button.disabled = false;
+          }
         });
         update();
       };

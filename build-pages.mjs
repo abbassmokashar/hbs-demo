@@ -25,7 +25,7 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = new URL(SITE.url).pathname.replace(/\/?$/, '/');
 // Change this whenever shared front-end assets change so static hosts and
 // browsers cannot keep serving an older stylesheet or script after a deploy.
-const ASSET_VERSION = '20260930a';
+const ASSET_VERSION = '20260930b';
 const stripTags = (value) => String(value).replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 
 /* ------------------------------------------------------------------------ Pages */

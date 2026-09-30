@@ -613,8 +613,6 @@
   .tool-actions .btn { width: 100%; }
 }
 @media print {
-  .site-header, .page-hero, .trail, .site-footer, .investment-controls, .tool-heading, .section--mist, .to-top { display: none !important; }
-  .section--tool { padding: 0; background: #fff; }
-  .investment-layout { display: block; }
-  .investment-result { color: #000; background: #fff; box-shadow: none; }
+  body * { display: none !important; }
+  body::before { display: block !important; padding: 48px; color: #002c27; font: 600 18px/1.5 Arial, sans-serif; content: "Printing is unavailable. Use Receive my estimate to obtain the official HBS PDF."; }
 }
