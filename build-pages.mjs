@@ -11,6 +11,7 @@ import { OTHER_PAGES, NOT_FOUND } from './data/pages.mjs';
 import { PROGRAMS_HUB, BBA_PAGE, MBA_PAGE } from './data/program-pages.mjs';
 import { DUAL_HUB, DUAL_BBA, DUAL_MASTER_PAGES } from './data/dual.mjs';
 import { CERT_HUB, CERT_PAGES } from './data/certificates.mjs';
+import { TOOL_PAGES } from './data/tools.mjs';
 import {
   esc, prefixFor, href, absolute, header, footer, searchOverlay,
   renderBlocks, renderHero, renderTrail, img, slugify,
@@ -24,7 +25,7 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = new URL(SITE.url).pathname.replace(/\/?$/, '/');
 // Change this whenever shared front-end assets change so static hosts and
 // browsers cannot keep serving an older stylesheet or script after a deploy.
-const ASSET_VERSION = '20260929e';
+const ASSET_VERSION = '20260929f';
 const stripTags = (value) => String(value).replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 
 /* ------------------------------------------------------------------------ Pages */
@@ -41,6 +42,7 @@ const PAGES = [
   ...ADMISSION_PAGES,
   ...ABOUT_PAGES,
   ...OTHER_PAGES,
+  ...TOOL_PAGES,
 ];
 
 /* -------------------------------------------------------------------- SEO head */
