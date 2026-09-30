@@ -404,7 +404,7 @@ export const ABOUT_PAGES = [
       {
         type: 'note',
         tone: 'section--mist',
-        text: 'The summaries above describe what each policy governs. The binding text is held by the HBS registry — request the document and you will receive the current edition. During the WordPress migration each document should be uploaded and version-dated so this register stays authoritative.',
+        text: 'The summaries above describe what each policy governs. The binding text is held by the HBS registry — request a document to receive the current, version-dated edition.',
       },
       { type: 'contact' },
       { type: 'cta', eyebrow: 'Questions?', title: 'Contact the HBS <em>administration.</em>' },

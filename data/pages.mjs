@@ -260,7 +260,7 @@ export const OTHER_PAGES = [
       {
         type: 'note',
         tone: 'section--mist',
-        text: 'In the production WordPress site these entries become a dynamic Insights and Events archive with category filters and structured event dates. This prototype links to the currently published articles on hbs.swiss so no content is lost during migration.',
+        text: 'Explore the latest HBS articles and events by theme, with direct access to the currently published stories on hbs.swiss.',
       },
       { type: 'cta', eyebrow: 'Stay connected', title: 'Join the HBS <em>community.</em>' },
     ],
