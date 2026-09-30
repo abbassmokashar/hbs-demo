@@ -482,7 +482,10 @@
     const initInvestment = () => {
       const queryProgram = new URLSearchParams(location.search).get('program');
       let lead = null;
-      try { lead = JSON.parse(localStorage.getItem('hbsInvestmentLeadV1') || 'null'); } catch (_) { /* local storage may be unavailable */ }
+      try {
+        localStorage.removeItem('hbsInvestmentLeadV1');
+        localStorage.removeItem('hbsPendingEstimateV1');
+      } catch (_) { /* the planner also works when browser storage is unavailable */ }
       const degreeOptions = programs.map((p) => `<option value="${p.id}" ${p.id === queryProgram ? 'selected' : ''}>${p.name}</option>`).join('');
       const loadImage = (src, timeout = 5000) => new Promise((resolve, reject) => {
         const image = new Image();
@@ -537,11 +540,12 @@
         const disclaimer = 'This estimate is indicative and intended for planning purposes. Tuition, fees and personal living costs may change. HBS admissions will confirm current charges and payment arrangements.';
         const words = disclaimer.split(' '); let line = ''; let y = 1600;
         words.forEach((word) => { const next = `${line}${line ? ' ' : ''}${word}`; if (ctx.measureText(next).width > 1060 && line) { ctx.fillText(line, 74, y); line = word; y += 31; } else line = next; }); ctx.fillText(line, 74, y);
-        const jpeg = await new Promise((resolve, reject) => canvas.toBlob((blob) => {
-          if (blob) resolve(blob);
-          else reject(new Error('This browser could not create the estimate document.'));
-        }, 'image/jpeg', .94));
-        const imageBytes = new Uint8Array(await jpeg.arrayBuffer()); const encoder = new TextEncoder(); const chunks = []; const offsets = [0]; let size = 0;
+        const jpegData = canvas.toDataURL('image/jpeg', .94);
+        const encodedImage = jpegData.split(',')[1];
+        if (!encodedImage) throw new Error('This browser could not create the estimate document.');
+        const binaryImage = atob(encodedImage); const imageBytes = new Uint8Array(binaryImage.length);
+        for (let index = 0; index < binaryImage.length; index += 1) imageBytes[index] = binaryImage.charCodeAt(index);
+        const encoder = new TextEncoder(); const chunks = []; const offsets = [0]; let size = 0;
         const pushText = (text) => { const bytes = encoder.encode(text); chunks.push(bytes); size += bytes.length; };
         const pushBytes = (bytes) => { chunks.push(bytes); size += bytes.length; };
         pushText('%PDF-1.4\n');
@@ -565,7 +569,6 @@
             country: data.get('country'), degree: data.get('degree-of-interest'), program: data.get('program-of-interest'), intake: data.get('preferred-intake'),
             createdAt: new Date().toISOString(),
           };
-          try { localStorage.setItem('hbsInvestmentLeadV1', JSON.stringify(lead)); } catch (_) { /* planner still works without persistence */ }
           renderPlanner();
         });
       };
@@ -598,7 +601,6 @@
         toolRoot.querySelector('[data-receive-estimate]').addEventListener('click', async (event) => {
           const button = event.currentTarget; const buttonLabel = button.querySelector('span'); const delivery = toolRoot.querySelector('[data-estimate-delivery]');
           button.disabled = true; buttonLabel.textContent = 'Preparing PDF…'; delivery.classList.remove('is-visible');
-          try { localStorage.setItem('hbsPendingEstimateV1', JSON.stringify({ lead, estimate: latestEstimate })); } catch (_) {}
           try {
             await Promise.race([
               createEstimatePdf(latestEstimate),
